@@ -1,0 +1,23 @@
+.container{
+    .container_text{
+        text-align: center;
+        align-items: center;
+    }
+    .container_img{
+        display: flex;       
+    }
+    .container_product{
+        .container_product_h1{
+            text-align: center;
+            align-items: center;
+        }
+        .container_product_item{
+            display: flex;
+            justify-content:space-between;
+            img{
+                width: 300px;
+                height: 300px;
+            }
+        }
+    }
+}
