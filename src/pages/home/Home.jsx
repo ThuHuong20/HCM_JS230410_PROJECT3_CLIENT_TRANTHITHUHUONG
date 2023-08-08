@@ -9,19 +9,10 @@ import { useTranslation } from "react-i18next";
 
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "@actions/user";
-import Banner from "@components/Banner";
-import Content from "../../components/Content";
 
 function Home() {
     const store = useSelector((store) => store);
     const { t } = useTranslation();
-
-    const [feature, setFeature] = useState([
-        "Find a Store",
-        "Help",
-        "Join Us",
-        "Sign In",
-    ]);
 
     const dispatch = useDispatch();
 
@@ -39,14 +30,49 @@ function Home() {
                         {store.userStore?.data?.last_name} */}
                     </span>
                     <div className="feature">
-                        {feature.map((item, index) => (
+                        {/* {feature.map((item, index) => (
                             <span
                                 className="feature_item"
                                 key={Date.now() * Math.random()}
                             >
                                 {item}
                             </span>
-                        ))}
+                        ))} */}
+                        <span
+                            className="feature_item"
+                            onClick={() => {
+                                window.location.href =
+                                    "https://www.bulgari.com/en-us/storelocator/";
+                            }}
+                        >
+                            Find A Store
+                        </span>
+                        <span
+                            className="feature_item"
+                            onClick={() => {
+                                window.location.href =
+                                    "https://www.bulgari.com/en-us/contact-us--info.html";
+                            }}
+                        >
+                            Help
+                        </span>
+                        <span
+                            className="feature_item"
+                            onClick={() => {
+                                window.location.href =
+                                    "https://www.bulgari.com/en-us/contact-us--info.html";
+                            }}
+                        >
+                            Join Us
+                        </span>
+                        {localStorage.getItem("token") ? (
+                            <span className="feature_item">
+                                {/* {t("hello")} */}
+                                Hello {store.userStore?.data?.last_name}
+                            </span>
+                        ) : (
+                            <span className="feature_item">Sign In</span>
+                        )}
                     </div>
                 </div>
             </section>
@@ -56,12 +82,12 @@ function Home() {
             <section className="body_container">
                 <div className="body_container_center">
                     <Outlet />
-                    <Banner />
-                    <Content />
+                    {/* <Banner />
+                    <Content /> */}
                 </div>
             </section>
             {/* Footer */}
-            {/* <Footer /> */}
+            <Footer />
         </div>
     );
 }

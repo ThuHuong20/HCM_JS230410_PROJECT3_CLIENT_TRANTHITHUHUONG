@@ -1,6 +1,17 @@
-import React from "react";
-import "./content.scss";
+import React, { useRef } from "react";
+import Slider from "react-slick";
+
 export default function Content() {
+    var settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        arrows: true,
+    };
+    const sliderRef = useRef();
+
     return (
         <div className="container">
             <div className="container_text">
@@ -21,7 +32,7 @@ export default function Content() {
                         src={`${process.env.REACT_APP_SERVER_HOST}home/a4.avif`}
                     />
                 </div>
-                <div className="container_img_two">
+                <div className="container_img_one">
                     <img
                         src={`${process.env.REACT_APP_SERVER_HOST}home/a2.avif`}
                     />
@@ -35,29 +46,164 @@ export default function Content() {
                     <h1>OUR INSPIRING CREATIONS</h1>
                 </div>
                 <div className="container_product_item">
-                    <div>
+                    <div className="container_product_item_a">
                         <img
                             src={`${process.env.REACT_APP_SERVER_HOST}home/necklace.avif`}
                         />
-                        NECKLACES
+                        <div class="overlay">
+                            <div class="text"></div>
+                        </div>
+                        <h5>NECKLACES</h5>
                     </div>
-                    <div>
+                    <div className="container_product_item_b">
                         <img
                             src={`${process.env.REACT_APP_SERVER_HOST}home/rings.avif`}
                         />
-                        RINGS
+                        <div class="overlayb">
+                            <div class="textb"></div>
+                        </div>
+                        <h5>RINGS</h5>
                     </div>
-                    <div>
+                    <div className="container_product_item_c">
                         <img
                             src={`${process.env.REACT_APP_SERVER_HOST}home/watch.avif`}
                         />
-                        WATCHES
+                        <div class="overlayc">
+                            <div class="textc"></div>
+                        </div>
+                        <h5>WATCHES</h5>
                     </div>
-                    <div>
+                    <div className="container_product_item_d">
                         <img
                             src={`${process.env.REACT_APP_SERVER_HOST}home/bag.avif`}
                         />
-                        BAGS
+                        <div class="overlayd">
+                            <div class="textd"></div>
+                        </div>
+                        <h5>BAGS</h5>
+                    </div>
+                </div>
+            </div>
+            <div className="container_product_page">
+                <div className="container_product_page_h1">
+                    <h1>MOST COVETED CREATIONS</h1>
+                    <div className="test">
+                        <i
+                            onClick={() => {
+                                sliderRef.current.slickNext();
+                            }}
+                            className="testprev fa-solid fa-chevron-left"
+                        ></i>
+                        <Slider ref={sliderRef} {...settings}>
+                            <div>
+                                <div
+                                    style={{
+                                        width: "90%",
+                                        height: "90%",
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                        }}
+                                        src={`${process.env.REACT_APP_SERVER_HOST}necklaces/1.avif`}
+                                    />
+                                    <b>SERPENTI VIPER BRACELET</b>
+                                </div>
+                            </div>
+                            <div>
+                                <div
+                                    style={{
+                                        width: "90%",
+                                        height: "90%",
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                        }}
+                                        src={`${process.env.REACT_APP_SERVER_HOST}rings/5.avif`}
+                                    />
+                                    <b>SERPENTI VIPER RING</b>
+                                </div>
+                            </div>
+                            <div>
+                                <div
+                                    style={{
+                                        width: "90%",
+                                        height: "90%",
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                        }}
+                                        src={`${process.env.REACT_APP_SERVER_HOST}bags/b.avif`}
+                                    />
+                                    <b>SERPENTINE TOTE</b>
+                                </div>
+                            </div>
+                            <div>
+                                <div
+                                    style={{
+                                        width: "90%",
+                                        height: "90%",
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                        }}
+                                        src={`${process.env.REACT_APP_SERVER_HOST}watches/w6.avif`}
+                                    />
+                                    <b>SERPENTI TUBOGAS WATCH</b>
+                                </div>
+                            </div>
+                            <div>
+                                <div
+                                    style={{
+                                        width: "90%",
+                                        height: "90%",
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                        }}
+                                        src={`${process.env.REACT_APP_SERVER_HOST}rings/3.avif`}
+                                    />
+                                    <b>B.ZERO1 BRACELET</b>
+                                </div>
+                            </div>
+                            <div>
+                                <div
+                                    style={{
+                                        width: "90%",
+                                        height: "90%",
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                        }}
+                                        src={`${process.env.REACT_APP_SERVER_HOST}bags/b7.avif`}
+                                    />
+                                    <b>SERPENTI BAIA SHOULDER BAG</b>
+                                </div>
+                            </div>
+                        </Slider>
+                        <i
+                            onClick={() => {
+                                sliderRef.current.slickPrev();
+                            }}
+                            className="testnext fa-solid fa-chevron-right"
+                        ></i>
                     </div>
                 </div>
             </div>

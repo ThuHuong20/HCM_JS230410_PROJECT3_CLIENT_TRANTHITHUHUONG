@@ -8,7 +8,7 @@ export default function Register() {
             className="vh-100 bg-image"
             style={{
                 backgroundImage:
-                    'url("https://www.bulgari.com/on/demandware.static/-/Library-Sites-bulgariSharedLibrary/default/dwcec99e9f/the_maison/bulgari_history/SLIDER_1/2_410x410.jpg")',
+                    'url("https://www.bulgari.com/on/demandware.static/-/Library-Sites-bulgariSharedLibrary/default/dw25e0ef7f/the_maison/bulgari_history/SLIDER_3/2.jpg")',
             }}
         >
             <div className="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -34,20 +34,20 @@ export default function Register() {
                                                 password:
                                                     e.target.password.value,
                                             };
-                                            let result =
-                                                await api.users.register(
-                                                    newUser
-                                                );
-                                            if (result.status != 200) {
-                                                alert(
-                                                    result.response.data.message
-                                                );
-                                            } else {
-                                                alert(
-                                                    result.data != undefined
-                                                        ? result.data.message
-                                                        : result.message
-                                                );
+                                            try {
+                                                let result =
+                                                    await api.users.register(
+                                                        newUser
+                                                    );
+                                                if (result.status != 200) {
+                                                    alert(result.data.message);
+                                                } else {
+                                                    alert(result.data.message);
+                                                    window.location.href =
+                                                        "/login";
+                                                }
+                                            } catch (err) {
+                                                alert("call api that bai");
                                             }
                                         }}
                                     >
@@ -98,16 +98,18 @@ export default function Register() {
                                         </div>
                                         <div className="d-flex justify-content-center">
                                             <button
-                                                onClick={() => {
-                                                    window.location.href = "/";
-                                                }}
                                                 type="submit"
                                                 className="btn btn-success btn-block btn-lg gradient-custom-4 text-body button-register"
                                             >
                                                 Register
                                             </button>
                                         </div>
-                                        <p className="text-center text-muted  mb-0">
+                                        <p
+                                            style={{
+                                                cursor: "pointer",
+                                            }}
+                                            className="text-center text-muted  mb-0"
+                                        >
                                             Have already an account?
                                             <p
                                                 onClick={() => {
@@ -116,7 +118,13 @@ export default function Register() {
                                                 }}
                                                 className="fw-bold text-body"
                                             >
-                                                <u>Login here</u>
+                                                <u
+                                                    style={{
+                                                        cursor: "pointer",
+                                                    }}
+                                                >
+                                                    Login here
+                                                </u>
                                             </p>
                                         </p>
                                     </form>

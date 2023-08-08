@@ -1,12 +1,18 @@
 import React from "react";
-import "./Footer.scss";
 export default function Footer() {
     return (
-        <div>
+        <div className="footer">
             {/* Footer */}
             <footer className="text-center text-lg-start bg-light text-muted">
                 {/* Section: Social media */}
-                <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+
+                <section
+                    className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+                    style={{
+                        fontWeight: "bold",
+                        backgroundColor: "rgb(236, 223, 219)",
+                    }}
+                >
                     {/* Left */}
                     <div className="me-5 d-none d-lg-block">
                         <span>Get connected with us on social networks:</span>
@@ -14,23 +20,32 @@ export default function Footer() {
                     {/* Left */}
                     {/* Right */}
                     <div>
-                        <a href className="me-4 text-reset">
+                        <a
+                            href="https://www.facebook.com/Bulgari/"
+                            className="me-4 text-reset"
+                        >
                             <i className="fab fa-facebook-f" />
                         </a>
-                        <a href className="me-4 text-reset">
-                            <i className="fab fa-twitter" />
+                        <a
+                            href="https://www.youtube.com/Bulgari"
+                            className="me-4 text-reset"
+                        >
+                            <i class="fa-brands fa-youtube"></i>
                         </a>
-                        <a href className="me-4 text-reset">
-                            <i className="fab fa-google" />
-                        </a>
-                        <a href className="me-4 text-reset">
+                        <a
+                            href="https://www.instagram.com/bulgari/"
+                            className="me-4 text-reset"
+                        >
                             <i className="fab fa-instagram" />
+                        </a>
+                        <a
+                            href="https://www.pinterest.com/bulgari/"
+                            className="me-4 text-reset"
+                        >
+                            <i class="fa-brands fa-pinterest"></i>
                         </a>
                         <a href className="me-4 text-reset">
                             <i className="fab fa-linkedin" />
-                        </a>
-                        <a href className="me-4 text-reset">
-                            <i className="fab fa-github" />
                         </a>
                     </div>
                     {/* Right */}
@@ -76,7 +91,7 @@ export default function Footer() {
                             </div>
                             {/* Grid column */}
                             {/* Grid column */}
-                            <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                                 {/* Links */}
                                 <h6 className="text-uppercase fw-bold mb-4">
                                     ABOUT BVLGARI
@@ -109,7 +124,7 @@ export default function Footer() {
                             </div>
                             {/* Grid column */}
                             {/* Grid column */}
-                            <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                                 {/* Links */}
                                 <h6 className="text-uppercase fw-bold mb-4">
                                     PRIVACY CENTER
@@ -142,14 +157,14 @@ export default function Footer() {
                             </div>
                             {/* Grid column */}
                             {/* Grid column */}
-                            <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                            <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                                 {/* Links */}
                                 <h6 className="text-uppercase fw-bold mb-4">
                                     CONTACT US
                                 </h6>
                                 <p>
                                     <i className="fas fa-home me-3" /> New York,
-                                    NY 10012, US
+                                    NY 10012
                                 </p>
                                 <p>
                                     <i className="fas fa-envelope me-3" />

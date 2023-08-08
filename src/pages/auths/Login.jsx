@@ -14,7 +14,7 @@ export default function Login() {
                 className="vh-100"
                 style={{
                     backgroundImage:
-                        'url("https://www.bulgari.com/on/demandware.static/-/Library-Sites-bulgariSharedLibrary/default/dwcec99e9f/the_maison/bulgari_history/SLIDER_1/2_410x410.jpg")',
+                        'url("https://www.bulgari.com/on/demandware.static/-/Library-Sites-bulgariSharedLibrary/default/dw25e0ef7f/the_maison/bulgari_history/SLIDER_3/2.jpg")',
                 }}
             >
                 <div className="container py-5 h-100">
@@ -22,7 +22,10 @@ export default function Login() {
                         <div className="col col-xl-10">
                             <div
                                 className="card"
-                                style={{ borderRadius: "1rem" }}
+                                style={{
+                                    borderRadius: "1rem",
+                                    height: "500px",
+                                }}
                             >
                                 <div className="row g-0">
                                     <div className="col-md-6 col-lg-5 d-none d-md-block">
@@ -32,6 +35,7 @@ export default function Login() {
                                             className="img-fluid"
                                             style={{
                                                 borderRadius: "1rem 0 0 1rem",
+                                                height: "500px",
                                             }}
                                         />
                                     </div>
@@ -67,7 +71,7 @@ export default function Login() {
                                                                 undefined
                                                             ) {
                                                                 alert(
-                                                                    "Đăng nhập thất bại"
+                                                                    "Login failed"
                                                                 );
                                                             } else {
                                                                 localStorage.setItem(
@@ -76,8 +80,10 @@ export default function Login() {
                                                                         .token
                                                                 );
                                                                 alert(
-                                                                    "Đăng nhập Thành Công"
+                                                                    "Login success"
                                                                 );
+                                                                window.location.href =
+                                                                    "/";
                                                             }
                                                         } else {
                                                             alert(
@@ -85,7 +91,7 @@ export default function Login() {
                                                                     .message
                                                             );
                                                         }
-                                                    } catch {
+                                                    } catch (err) {
                                                         err;
                                                     }
                                                     {
@@ -129,10 +135,6 @@ export default function Login() {
                                                 </div>
                                                 <div className="pt-1 mb-4">
                                                     <button
-                                                        onClick={() => {
-                                                            window.location.href =
-                                                                "/";
-                                                        }}
                                                         className="btn btn-dark btn-lg btn-block button-login"
                                                         type="submit"
                                                     >
@@ -147,7 +149,10 @@ export default function Login() {
                                                 </a>
                                                 <p
                                                     className="mb-5 pb-lg-2"
-                                                    style={{ color: "#393f81" }}
+                                                    style={{
+                                                        color: "#393f81",
+                                                        cursor: "pointer",
+                                                    }}
                                                 >
                                                     Don't have an account?{" "}
                                                     <p
@@ -158,6 +163,7 @@ export default function Login() {
                                                         href="#!"
                                                         style={{
                                                             color: "#393f81",
+                                                            cursor: "pointer",
                                                         }}
                                                     >
                                                         Register here

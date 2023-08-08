@@ -29,14 +29,20 @@ const userSlice = createSlice({
       };
     },
   },
+  logOut: (state, action) => {
+    return {
+      ...state, userInfor: null
+    }
+  },
+
   extraReducers: (builder) => {
     builder.addCase(find.fulfilled, (state, action) => {
       state.data = [...action.payload.data];
     });
     builder.addCase(authenToken.fulfilled, (state, action) => {
-      if(action.payload) {
+      if (action.payload) {
         state.data = action.payload.data;
-      }else {
+      } else {
         localStorage.removeItem("token");
       }
     });
