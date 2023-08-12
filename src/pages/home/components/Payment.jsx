@@ -3,19 +3,24 @@ import "./payment.scss";
 import { RootContext } from "@/App";
 import { convertToUSD } from "@mieuteacher/meomeojs";
 import axios from "axios";
+import Qr from "./qrs/Qr";
+import { message } from "antd";
 export default function Payment() {
-    const { cartStore } = useContext(RootContext);
-    console.log("🚀 ~ file: Payment.jsx:8 ~ Payment ~ cartStore:", cartStore);
+    const { cartStore, userStore } = useContext(RootContext);
     const [cartItems, setCartItems] = useState(null);
+    const [qrShow, setQrShow] = useState(false);
+    const [qrData, setQrData] = useState(null);
     useEffect(() => {
         if (cartStore.data) {
             setCartItems(cartStore.data.cart_details);
         }
     }, [cartStore.data]);
 
-    function checkOut(eventForm) {
+    function saveReceipt(eventForm) {
+        /* Reset Form Action */
         eventForm.preventDefault();
-        console.log("payment", eventForm.target.payment.value);
+
+        /* Req.body.receiptInfor */
         let receiptInfor = {
             receipt_code: cartStore.data.id,
             total: cartStore.data.cart_details.reduce((result, nextItem) => {
@@ -24,6 +29,7 @@ export default function Payment() {
             pay_mode: eventForm.target.payment.value,
             paid: eventForm.target.payment.value == "CASH" ? false : true,
         };
+        /* Req.body.receiptDetails */
         let receiptDetails = [];
         for (let i in cartStore.data.cart_details) {
             receiptDetails.push({
@@ -32,37 +38,96 @@ export default function Payment() {
                 note: cartStore.data.cart_details[i].note,
             });
         }
-        // console.log("data", receiptInfor);
-        // console.log("receiptDetails", receiptDetails);
-        axios
-            .post("http://localhost:4000/apis/v1/purchase/zalo-create", {
-                receipt_code: cartStore.data.id,
-                total: cartStore.data.cart_details.reduce(
-                    (result, nextItem) => {
-                        return (result +=
-                            nextItem.quantity * nextItem.product.price);
-                    },
-                    0
-                ),
-            })
-            .then((res) => {
-                console.log("Okla");
-            })
-            .catch((err) => {
-                alert("bala");
-            });
-        return;
+
+        /* Cash */
         axios
             .post("http://localhost:4000/apis/v1/purchase/order", {
                 receiptInfor,
                 receiptDetails,
             })
             .then((res) => {
-                console.log("Okla");
+                message.success("Cảm ơn bạn đã mua hàng!");
+                // chuyển trang receipt
+                console.log("Đã save receipt", res.data);
             })
             .catch((err) => {
                 alert("bala");
             });
+        return;
+    }
+    function checkOut(eventForm) {
+        /* Zalo */
+        if (eventForm.target.payment.value == "ZALO") {
+            axios
+                .post("http://localhost:4000/apis/v1/purchase/zalo-create", {
+                    receiptCode: cartStore.data.id,
+                    receiptTotal: cartStore.data.cart_details.reduce(
+                        (result, nextItem) => {
+                            return (result +=
+                                nextItem.quantity * nextItem.product.price);
+                        },
+                        0
+                    ),
+                    userName:
+                        userStore.data.first_name + userStore.data.last_name,
+                })
+                .then((res) => {
+                    if (res.status == 200) {
+                        /* 
+                        - khi thành công sẽ nhận được QR code
+                        - orderId, url
+                        - Lặp vô tận trong 5 phút liên tục kiểm tra tiền đã vào túi chưa.
+                        - show QRCODE
+                        */
+                        setQrData({
+                            url: res.data.url,
+                            title: `Scan with ZaloPay`,
+                            orderId: res.data.orderId,
+                        });
+                        setQrShow(true);
+                        /* 
+                            Check kết quả giao dịch
+                        */
+                        let tradeInterval;
+                        let cancelTrade = setTimeout(() => {
+                            // sau 10' hủy giao dịch (600000)
+                            clearInterval(tradeInterval);
+                            setQrShow(false);
+                            setQrData(null);
+                            alert("Giao dịch đã bị hủy vì quá lâu!");
+                        }, 60000);
+                        tradeInterval = setInterval(() => {
+                            //console.log("đang kiểm tra thanh toán mỗi 5s");
+                            axios
+                                .get(
+                                    `http://localhost:4000/apis/v1/purchase/zalo-confirm/${res.data.orderId}`
+                                )
+                                .then((checkRes) => {
+                                    if (checkRes.status == 200) {
+                                        // chuyển qua trang hóa đơn
+                                        clearInterval(tradeInterval);
+                                        // thu hồi QR
+                                        setQrShow(false);
+                                        setQrData(null);
+                                        clearTimeout(cancelTrade);
+                                        // xử lý database
+                                        saveReceipt(eventForm);
+                                    }
+                                })
+                                .catch((err) => {
+                                    alert("zalo sập!");
+                                });
+                        }, 5000);
+                    }
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    alert("Tạm thời không thể thanh toán phương thức này!");
+                });
+            return;
+        } else {
+            saveReceipt(eventForm);
+        }
     }
     return (
         <div>
@@ -73,6 +138,7 @@ export default function Payment() {
                             eventForm.preventDefault();
                         }}
                         className="form-group"
+                        style={{ position: "relative" }}
                     >
                         <h2>Information</h2>
                         <div className="form-groupInput">
@@ -142,6 +208,7 @@ export default function Payment() {
                             </button>
                         </form>
                         <p className="validate-email" />
+                        {qrShow && qrData != null ? <Qr {...qrData} /> : <></>}
                     </div>
                     <div className="informationLine">
                         {cartItems?.map((item, index) => (

@@ -200,7 +200,12 @@
                     justify-content: space-around;
                     img {
                         margin: 10px;
+                        transition: transform 0.1s;
                     }
+                    // img:hover  {
+                    //     transform: scale(0.9);
+                    //     /* Phóng to hình ảnh lên 120% */
+                    // }
                 }
                 .container_product {
                     margin-top: 20px;
@@ -247,7 +252,7 @@
                                 margin-top: 10px;
                                 margin-left: 40%;
                                 color: black;
-                               text-decoration: none;
+                                text-decoration: none;
                             }
                         }
                         .container_product_item_a:hover .overlay {
@@ -409,7 +414,6 @@
     }
 }
 
-
 .test {
     position: relative;
     margin-top: 10px;
@@ -435,5 +439,4 @@
         color: grey;
         cursor: pointer;
     }
-
 }

@@ -13,7 +13,7 @@ message.config({
     prefixCls: "my-message",
 });
 export default function Navbar() {
-    const {  cartStore } = useContext(RootContext);
+    const { cartStore } = useContext(RootContext);
     const [categories, setCategories] = useState([]);
     useEffect(() => {
         api.categories
@@ -181,6 +181,7 @@ export default function Navbar() {
                             window.location.href = "/cart";
                         }}
                         className="fa-solid fa-bag-shopping"
+                        style={{ cursor: "pointer" }}
                     ></i>
                     <p style={{ color: "red" }}>
                         {cartStore.data?.cart_details?.reduce(
