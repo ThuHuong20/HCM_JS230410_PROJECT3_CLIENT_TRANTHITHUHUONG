@@ -15,7 +15,7 @@ export const RootContext = createContext();
 function App() {
     const store = useSelector((store) => store);
     const dispatch = useDispatch();
-// checklogin, giai token,tao user store
+    // checklogin, giai token,tao user store
     useEffect(() => {
         dispatch(userActions.authenToken());
     }, []);
@@ -37,7 +37,27 @@ function App() {
                 alert("sập!");
             });
     }, [store.userStore.data]);
-    
+    // khi da dawng nhap thi keo cart cua user ve
+    useEffect(() => {
+        if (!store.userStore.data) {
+            return;
+        }
+        api.receipt
+            .findReceipt(store.userStore.data?.id)
+            .then((res) => {
+                if (res.status == 200) {
+                    dispatch(
+                        actions.receiptActions.setReceiptData(res.data.data)
+                    );
+                } else {
+                    alert(res.data.message);
+                }
+            })
+            .catch((err) => {
+                alert("sập!");
+            });
+    }, [store.userStore.data]);
+
     return (
         <RootContext.Provider
             value={{
@@ -48,6 +68,7 @@ function App() {
                 cartStore: store.cartStore,
                 cartActions: actions.cartActions,
                 productActions: actions.productActions,
+                receiptStore: store.receiptStore,
             }}
         >
             <Routes>

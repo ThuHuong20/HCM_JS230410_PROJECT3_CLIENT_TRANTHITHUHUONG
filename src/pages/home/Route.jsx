@@ -7,11 +7,9 @@ import ProductDetail from "./components/ProductDetail";
 import Cart from "./components/Cart";
 import Payment from "./components/Payment";
 import Body from "./components/Body";
-import Admin from "../auths/Admin";
 import AuthRoute from "../auths/Route";
-
 import api from "@api";
-
+import Receipts from "./components/Receipts";
 let isAdmin = false;
 async function authenAdmin() {
     await api.users
@@ -46,6 +44,7 @@ export default (
             <Route path="/payment" element={<Payment />}></Route>;
             {/* <Route path="/admin" element={<Admin />}></Route>; */}
             <Route path="/admin" element={await authenAdmin()}></Route>
+            <Route path="/receipts" element={<Receipts />}></Route>;
             <Route
                 path="profile"
                 element={LazyLoad(() => import("../auths/Info"))()}
