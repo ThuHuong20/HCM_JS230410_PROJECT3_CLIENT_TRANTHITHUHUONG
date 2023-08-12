@@ -1,17 +1,17 @@
 import "./home.scss";
 import { Outlet } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 
 import Navbar from "@components/Navbar";
 import Footer from "@components/Footer";
-
+import { RootContext } from "../../App";
 import { useTranslation } from "react-i18next";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userActions } from "@actions/user";
 
 function Home() {
-    const store = useSelector((store) => store);
+    const { userStore } = useContext(RootContext);
     const { t } = useTranslation();
 
     const dispatch = useDispatch();
@@ -24,20 +24,8 @@ function Home() {
             {/* Before Nav */}
             <section className="before_nav">
                 <div className="before_nav_content">
-                    <span className="brand_name">
-                        {/* {t("hello")} - {t("about")} User:{" "}
-                        {store.userStore?.data?.first_name}{" "}
-                        {store.userStore?.data?.last_name} */}
-                    </span>
+                    <span className="brand_name"></span>
                     <div className="feature">
-                        {/* {feature.map((item, index) => (
-                            <span
-                                className="feature_item"
-                                key={Date.now() * Math.random()}
-                            >
-                                {item}
-                            </span>
-                        ))} */}
                         <span
                             className="feature_item"
                             onClick={() => {
@@ -68,10 +56,17 @@ function Home() {
                         {localStorage.getItem("token") ? (
                             <span className="feature_item">
                                 {/* {t("hello")} */}
-                                Hello {store.userStore?.data?.last_name}
+                                Hello {userStore?.data?.last_name}
                             </span>
                         ) : (
-                            <span className="feature_item">Sign In</span>
+                            <span
+                                className="feature_item"
+                                onClick={() => {
+                                    window.location.href = "./login";
+                                }}
+                            >
+                                Sign In
+                            </span>
                         )}
                     </div>
                 </div>

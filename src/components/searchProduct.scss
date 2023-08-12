@@ -2,6 +2,7 @@
     display: flex;
     .DetailItem {
         display: flex;
+        border-bottom: 3px solid rgb(240, 174, 174);
         .DetailItem_img {
             img {
                 width: 200px;

@@ -30,7 +30,7 @@ export default function Footer() {
                             href="https://www.youtube.com/Bulgari"
                             className="me-4 text-reset"
                         >
-                            <i class="fa-brands fa-youtube"></i>
+                            <i className="fa-brands fa-youtube"></i>
                         </a>
                         <a
                             href="https://www.instagram.com/bulgari/"
@@ -42,7 +42,7 @@ export default function Footer() {
                             href="https://www.pinterest.com/bulgari/"
                             className="me-4 text-reset"
                         >
-                            <i class="fa-brands fa-pinterest"></i>
+                            <i className="fa-brands fa-pinterest"></i>
                         </a>
                         <a href className="me-4 text-reset">
                             <i className="fab fa-linkedin" />

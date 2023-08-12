@@ -21,8 +21,9 @@ export default {
       `${process.env.REACT_APP_SERVER_HOST_API}/users/authen-token`,
       data,
     )
-      .then(res => res)
-      .catch(err => err)
+    
+      // .then(res => res)
+      // .catch(err => err)
   },
   resend: async (data) => {
     return await axios.get(

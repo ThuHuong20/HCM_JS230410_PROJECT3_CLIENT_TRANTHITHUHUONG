@@ -16,18 +16,18 @@ export default function Banner() {
                         data-wg-text-align="center"
                         className="video_caption_text"
                     >
-                        <div class="video_caption_text_h1">
+                        <div className="video_caption_text_h1">
                             <h1>EMPOWERED BEAUTY</h1>
                         </div>
-                        <div class="video_caption_text_a">
+                        <div className="video_caption_text_a">
                             <a
-                                class="button white"
+                                className="button white"
                                 href="https://www.bulgari.com/en-us/jewelry/new-arrivals"
                             >
                                 SHOP JEWELRY
                             </a>
                             <a
-                                class="button white"
+                                className="button white"
                                 href="https://www.bulgari.com/en-us/bags-and-accessories/womens/handbags"
                             >
                                 SHOP HANDBAGS

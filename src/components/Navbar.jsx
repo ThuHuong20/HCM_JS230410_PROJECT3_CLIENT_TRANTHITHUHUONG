@@ -1,71 +1,34 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-
-/* Antd */
-//import { AutoComplete, Input } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import SearchProduct from "@components/SearchProduct";
 import { userActions } from "../stores/slices/user";
-
+import { RootContext } from "@/App";
+import api from "@api";
+import { message, Modal } from "antd";
+message.config({
+    top: 120,
+    duration: 1,
+    maxCount: 1,
+    rtl: true,
+    prefixCls: "my-message",
+});
 export default function Navbar() {
-    const dispatch = useDispatch();
-    const renderTitle = (title) => (
-        <span>
-            {title}
-            <a
-                style={{
-                    float: "right",
-                }}
-                href="https://www.google.com/search?q=antd"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                more
-            </a>
-        </span>
-    );
-
-    const renderItem = (title, count) => ({
-        value: title,
-        label: (
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                }}
-            >
-                {title}
-                <span>
-                    <UserOutlined /> {count}
-                </span>
-            </div>
-        ),
-    });
-
-    const options = [
-        {
-            label: renderTitle("Libraries"),
-            options: [
-                renderItem("AntDesign", 10000),
-                renderItem("AntDesign UI", 10600),
-            ],
-        },
-        {
-            label: renderTitle("Solutions"),
-            options: [
-                renderItem("AntDesign UI FAQ", 60100),
-                renderItem("AntDesign FAQ", 30010),
-            ],
-        },
-        {
-            label: renderTitle("Articles"),
-            options: [renderItem("AntDesign design language", 100000)],
-        },
-    ];
-    const store = useSelector((store) => store);
-    const { t } = useTranslation();
+    const {  cartStore } = useContext(RootContext);
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        api.categories
+            .findMany()
+            .then((res) => {
+                if (res.status == 200) {
+                    setCategories(res.data.data);
+                } else {
+                    alert(res.data.message);
+                }
+            })
+            .catch((err) => {
+                alert("sap server");
+            });
+    }, []);
     return (
         <nav>
             <div className="nav_content">
@@ -93,14 +56,13 @@ export default function Navbar() {
                         Home
                     </a>
                     <a className="item" href="">
-                        <div class="dropdown">
+                        <div className="dropdown">
                             <a
                                 style={{
                                     color: "black",
                                     textDecoration: "none",
                                 }}
-                                class="dropdown-toggle"
-                                //type="button"
+                                className="dropdown-toggle"
                                 id="dropdownMenuButton"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
@@ -108,22 +70,20 @@ export default function Navbar() {
                             >
                                 Menu
                             </a>
+
                             <div
-                                class="dropdown-menu"
+                                className="dropdown-menu"
                                 aria-labelledby="dropdownMenuButton"
                             >
-                                <Link class="dropdown-item" to="/necklaces">
-                                    NECKLACES
-                                </Link>
-                                <Link class="dropdown-item" to="/rings">
-                                    RINGS
-                                </Link>
-                                <Link class="dropdown-item" to="/watches">
-                                    WATCHES
-                                </Link>
-                                <Link class="dropdown-item" to="/bags">
-                                    BAGS
-                                </Link>
+                                {categories.map((category) => (
+                                    <Link
+                                        to={`category/${category.id}`}
+                                        className="dropdown-item"
+                                        key={Date.now() * Math.random()}
+                                    >
+                                        {category.title}
+                                    </Link>
+                                ))}
                             </div>
                         </div>
                     </a>
@@ -145,12 +105,12 @@ export default function Navbar() {
                 <div className="right_content">
                     {/* Search */}
                     <div className="searchBox d-flex" role="search">
-                        <div>
+                        <div id="search_box">
                             <SearchProduct />
                         </div>
                     </div>
                     {localStorage.getItem("token") ? (
-                        <div class="dropdown">
+                        <div className="dropdown">
                             <a
                                 id="dropdownMenuButton"
                                 data-toggle="dropdown"
@@ -163,49 +123,51 @@ export default function Navbar() {
                                     }}
                                     className="brand_name"
                                 >
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                    <i className="fa-solid fa-arrow-right-from-bracket"></i>
                                 </span>
                             </a>
                             <div
-                                class="dropdown-menu"
+                                className="dropdown-menu"
                                 aria-labelledby="dropdownMenuButton"
                             >
-                                <a class="dropdown-item" href="/profile">
+                                <a className="dropdown-item" href="/profile">
                                     Profile
                                 </a>
                                 <a
-                                    class="dropdown-item"
+                                    href="/"
+                                    style={{ cursor: "pointer" }}
+                                    className="dropdown-item"
                                     onClick={() => {
                                         alert("Are you sure want to logout?");
                                         localStorage.removeItem("token");
-                                        dispatch(userActions.logOut());
-                                        //navigate("/");
-                                        window.location.href = "/";
+                                        // Modal.success({
+                                        //     content:
+                                        //         "Are you sure want to logout?",
+                                        // });
                                     }}
-                                    href="/"
                                 >
                                     Log Out
                                 </a>
                             </div>
                         </div>
                     ) : (
-                        <div class="dropdown">
+                        <div className="dropdown">
                             <a
                                 id="dropdownMenuButton"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false"
                             >
-                                <i class="fa-regular fa-user"> </i>
+                                <i className="fa-regular fa-user"> </i>
                             </a>
                             <div
-                                class="dropdown-menu"
+                                className="dropdown-menu"
                                 aria-labelledby="dropdownMenuButton"
                             >
-                                <a class="dropdown-item" href="/register">
+                                <a className="dropdown-item" href="/register">
                                     Register
                                 </a>
-                                <a class="dropdown-item" href="/login">
+                                <a className="dropdown-item" href="/login">
                                     Log In
                                 </a>
                             </div>
@@ -214,7 +176,20 @@ export default function Navbar() {
                     {/* Wishlist */}
                     <i className="fa-regular fa-heart"></i>
                     {/* Cart */}
-                    <i className="fa-solid fa-bag-shopping"></i>
+                    <i
+                        onClick={() => {
+                            window.location.href = "/cart";
+                        }}
+                        className="fa-solid fa-bag-shopping"
+                    ></i>
+                    <p style={{ color: "red" }}>
+                        {cartStore.data?.cart_details?.reduce(
+                            (result, nextItem) => {
+                                return (result += nextItem.quantity);
+                            },
+                            0
+                        )}
+                    </p>
                 </div>
             </div>
         </nav>

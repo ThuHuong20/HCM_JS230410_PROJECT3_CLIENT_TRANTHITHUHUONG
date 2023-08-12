@@ -1,30 +1,27 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../services/api";
+import { createSlice } from "@reduxjs/toolkit";
 
-const findProductById = createAsyncThunk("/findProductById", async (id) => {
-    let result = await api.products.findProductById(id);
-    return result.data;
-});
-
-const productSlice = createSlice({
-    name: "product",
+const cartSlice = createSlice({
+    name: "cart",
     initialState: {
         loading: true,
-        data: null
+        data: null,
     },
+    // reducer: tuong tac share du lieu cho nguoi khac
     reducers: {
-        addProduct: (state, action) => {
-            state.data.unshift(action.payload)
+        changeLoad: (state, action) => {
+            return {
+                ...state,
+                load: !state.load,
+            };
         },
-        addProducts: (state, action) => {
-            state.data = [...action.payload]
+        setCartData: (state, action) => {
+            state.data = { ...action.payload }
         }
     },
     extraReducers: (builder) => {
-        // find product by Id
-        builder.addCase(findProductById.fulfilled, (state, action) => {
-            state.data = { ...action.payload.data };
-        });
+        // builder.addCase(find.fulfilled, (state, action) => {
+        //   state.data = [...action.payload.data];
+        // });
         builder.addMatcher(
             (action) => {
                 if (action.meta) {
@@ -51,12 +48,11 @@ const productSlice = createSlice({
                 }
             },
         );
-    }
-})
+    },
+});
 
-export const productActions = {
-    ...productSlice.actions,
-    findProductById
-}
+export const cartActions = {
+    ...cartSlice.actions
+};
 
-export const productReducer = productSlice.reducer;
+export const cartReducer = cartSlice.reducer;

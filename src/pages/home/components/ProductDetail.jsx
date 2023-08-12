@@ -1,26 +1,59 @@
-import { useEffect } from "react";
+import { useEffect, useContext, useState } from "react";
 import "./productDetail.scss";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { productActions } from "../../../stores/slices/product";
-
+import { RootContext } from "@/App";
+import { convertToUSD } from "@mieuteacher/meomeojs";
+import api from "@api";
 export default function ProductDetail() {
+    const [quantity, setQuantity] = useState(1);
     const { id } = useParams();
-    console.log("id", id);
-    const dispatch = useDispatch();
-
-    const productStore = useSelector((store) => store.productStore);
+    const { userStore, productStore, dispatch, productActions, cartActions } =
+        useContext(RootContext);
 
     useEffect(() => {
         dispatch(productActions.findProductById(id));
     }, [id]);
 
-    console.log("productStore", productStore);
+    function addToCart() {
+        // product_id Int
+        // quantity   Int
+        // note       String?
+        let data = {
+            product_id: productStore.data.id,
+            quantity,
+            note: "huong dep gai",
+        };
+
+        api.purchase
+            .addToCart(userStore.data.id, data)
+            .then((res) => {
+                api.purchase
+                    .findCart(userStore.data?.id)
+                    .then((res) => {
+                        if (res.status == 200) {
+                            dispatch(cartActions.setCartData(res.data.data));
+                        } else {
+                            alert(res.data.message);
+                        }
+                    })
+                    .catch((err) => {
+                        alert("sập!");
+                    });
+            })
+            .catch((err) => {
+                alert("looix");
+            });
+    }
+
     return (
         <div>
             <div className="detail_container">
                 <div className="detail_img">
                     <img
+                        style={{
+                            width: "400px",
+                            height: "400px",
+                        }}
                         name="productImg"
                         className="productImg"
                         src={productStore?.data?.avatar}
@@ -38,24 +71,50 @@ export default function ProductDetail() {
                                 fontSize: "25px",
                             }}
                         >
-                            {productStore?.data?.price}
+                            {convertToUSD(productStore?.data?.price)}
                         </span>
                         <div className="count_product">
-                            <button className="count">
-                                <span class="material-symbols-outlined">-</span>
+                            <button
+                                className="count"
+                                onClick={() => {
+                                    if (quantity > 1) {
+                                        setQuantity(quantity - 1);
+                                    }
+                                }}
+                            >
+                                <span className="material-symbols-outlined">
+                                    -
+                                </span>
                             </button>
-                            14
+
                             <span
                                 className="quantity"
                                 style={{ fontSize: "25px" }}
-                            ></span>
-                            <button className="count">
-                                <span class="material-symbols-outlined">+</span>
+                            >
+                                {quantity}
+                            </span>
+                            <button
+                                className="count"
+                                onClick={() => {
+                                    if (quantity > 0) {
+                                        setQuantity(quantity + 1);
+                                    }
+                                }}
+                            >
+                                <span className="material-symbols-outlined">
+                                    +
+                                </span>
                             </button>
                         </div>
                     </div>
                     <div className="buttonAddCart">
-                        <button type="submit" className="addToCart">
+                        <button
+                            onClick={() => {
+                                addToCart();
+                            }}
+                            type="submit"
+                            className="addToCart"
+                        >
                             Add To Cart
                         </button>
                         <br />

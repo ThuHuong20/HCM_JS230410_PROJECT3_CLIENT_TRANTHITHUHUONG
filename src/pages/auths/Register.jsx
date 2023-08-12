@@ -1,7 +1,14 @@
 import React from "react";
 import api from "@api";
 import "./auth.scss";
-
+import { message, Modal } from "antd";
+message.config({
+    top: 120,
+    duration: 1,
+    maxCount: 1,
+    rtl: true,
+    prefixCls: "my-message",
+});
 export default function Register() {
     return (
         <section
@@ -40,9 +47,17 @@ export default function Register() {
                                                         newUser
                                                     );
                                                 if (result.status != 200) {
-                                                    alert(result.data.message);
+                                                    Modal.error({
+                                                        content:
+                                                            "Email already exists",
+                                                    });
+                                                    // alert(result.data.message);
                                                 } else {
-                                                    alert(result.data.message);
+                                                    Modal.success({
+                                                        content:
+                                                            "Register sucsses",
+                                                    });
+                                                    // alert(result.data.message);
                                                     window.location.href =
                                                         "/login";
                                                 }

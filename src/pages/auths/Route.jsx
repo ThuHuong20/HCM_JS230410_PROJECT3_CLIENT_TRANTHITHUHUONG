@@ -11,9 +11,5 @@ export default (
             path="login"
             element={LazyLoad(() => import("./Login"))()}
         ></Route>
-        <Route
-            path="profile"
-            element={LazyLoad(() => import("../auths/Info"))()}
-        ></Route>
     </>
 );

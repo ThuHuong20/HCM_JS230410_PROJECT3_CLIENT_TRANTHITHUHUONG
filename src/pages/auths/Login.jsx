@@ -2,12 +2,21 @@ import React, { useEffect } from "react";
 import validate from "@utils/validate";
 import api from "@api";
 import "./auth.scss";
+import { message, Modal } from "antd";
+message.config({
+    top: 120,
+    duration: 1,
+    maxCount: 1,
+    rtl: true,
+    prefixCls: "my-message",
+});
 export default function Login() {
     useEffect(() => {
         if (localStorage.getItem("token")) {
             window.location.href = "/";
         }
     });
+
     return (
         <div>
             <section
@@ -70,20 +79,23 @@ export default function Login() {
                                                                     .token ==
                                                                 undefined
                                                             ) {
-                                                                alert(
-                                                                    "Login failed"
-                                                                );
+                                                                Modal.error({
+                                                                    content: `${result.data.message}`,
+                                                                });
+                                                               
                                                             } else {
                                                                 localStorage.setItem(
                                                                     "token",
                                                                     result.data
                                                                         .token
                                                                 );
-                                                                alert(
-                                                                    "Login success"
-                                                                );
-                                                                window.location.href =
-                                                                    "/";
+                                                                Modal.success({
+                                                                    content: `${result.data.message}`,
+                                                                    onOk: () => {
+                                                                        window.location.href =
+                                                                            "/";
+                                                                    },
+                                                                });
                                                             }
                                                         } else {
                                                             alert(

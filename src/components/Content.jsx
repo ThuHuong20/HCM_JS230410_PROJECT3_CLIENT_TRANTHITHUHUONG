@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import Slider from "react-slick";
+import { Link } from "react-router-dom";
 
 export default function Content() {
     var settings = {
@@ -46,42 +47,60 @@ export default function Content() {
                     <h1>OUR INSPIRING CREATIONS</h1>
                 </div>
                 <div className="container_product_item">
-                    <div className="container_product_item_a">
-                        <img
-                            src={`${process.env.REACT_APP_SERVER_HOST}home/necklace.avif`}
-                        />
-                        <div class="overlay">
-                            <div class="text"></div>
+                    <Link style={{ textDecoration: "none" }} to="category/2">
+                        <div className="container_product_item_a">
+                            <img
+                                src={`${process.env.REACT_APP_SERVER_HOST}home/necklace.avif`}
+                            />
+
+                            <div className="overlay">
+                                <div className="text"></div>
+                            </div>
+                            <h5>NECKLACES</h5>
                         </div>
-                        <h5>NECKLACES</h5>
-                    </div>
-                    <div className="container_product_item_b">
-                        <img
-                            src={`${process.env.REACT_APP_SERVER_HOST}home/rings.avif`}
-                        />
-                        <div class="overlayb">
-                            <div class="textb"></div>
+                    </Link>
+                    <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        to="category/1"
+                    >
+                        <div className="container_product_item_b">
+                            <img
+                                src={`${process.env.REACT_APP_SERVER_HOST}home/rings.avif`}
+                            />
+                            <div className="overlayb">
+                                <div className="textb"></div>
+                            </div>
+                            <h5>RINGS</h5>
                         </div>
-                        <h5>RINGS</h5>
-                    </div>
-                    <div className="container_product_item_c">
-                        <img
-                            src={`${process.env.REACT_APP_SERVER_HOST}home/watch.avif`}
-                        />
-                        <div class="overlayc">
-                            <div class="textc"></div>
+                    </Link>
+                    <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        to="category/3"
+                    >
+                        <div className="container_product_item_c">
+                            <img
+                                src={`${process.env.REACT_APP_SERVER_HOST}home/watch.avif`}
+                            />
+                            <div className="overlayc">
+                                <div className="textc"></div>
+                            </div>
+                            <h5>WATCHES</h5>
                         </div>
-                        <h5>WATCHES</h5>
-                    </div>
-                    <div className="container_product_item_d">
-                        <img
-                            src={`${process.env.REACT_APP_SERVER_HOST}home/bag.avif`}
-                        />
-                        <div class="overlayd">
-                            <div class="textd"></div>
+                    </Link>
+                    <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        to="category/4"
+                    >
+                        <div className="container_product_item_d">
+                            <img
+                                src={`${process.env.REACT_APP_SERVER_HOST}home/bag.avif`}
+                            />
+                            <div className="overlayd">
+                                <div className="textd"></div>
+                            </div>
+                            <h5>BAGS</h5>
                         </div>
-                        <h5>BAGS</h5>
-                    </div>
+                    </Link>
                 </div>
             </div>
             <div className="container_product_page">
